@@ -1,0 +1,26 @@
+# AI Image Detector - Inference Server Requirements
+# Demo version with dummy model
+
+# Web Framework
+fastapi==0.109.0
+uvicorn[standard]==0.27.0
+python-multipart==0.0.6
+
+# Image Processing
+Pillow==10.2.0
+
+# Utilities
+pydantic==2.5.3
+pydantic-settings==2.1.0
+
+# Real model integration
+numpy==1.26.3
+torch==2.1.2
+torchvision==0.16.2
+ftfy==6.2.0
+regex==2023.12.25
+tqdm==4.66.1
+git+https://github.com/openai/CLIP.git
+# onnxruntime==1.16.3
+# numpy==1.26.3
+# opencv-python==4.9.0.80

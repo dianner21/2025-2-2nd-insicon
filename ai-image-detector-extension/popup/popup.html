@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Image Detector</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup-container">
+    <!-- Header -->
+    <div class="popup-header">
+      <div class="popup-logo">
+        <span class="logo-icon">🤖</span>
+        <h1 class="popup-title">AI Image Detector</h1>
+      </div>
+      <div class="popup-version">v1.0.0</div>
+    </div>
+
+    <!-- Status Section -->
+    <div class="popup-section">
+      <div class="status-card">
+        <div class="status-indicator" id="statusIndicator">
+          <span class="status-dot"></span>
+          <span class="status-text">활성화됨</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Settings Section -->
+    <div class="popup-section">
+      <h2 class="section-title">설정</h2>
+
+      <!-- Auto Detect Toggle -->
+      <div class="setting-item">
+        <div class="setting-info">
+          <div class="setting-label">자동 검사</div>
+          <div class="setting-description">페이지 로드 시 자동으로 이미지 분석</div>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="autoDetect" checked>
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+
+      <!-- Confidence Threshold -->
+      <div class="setting-item">
+        <div class="setting-info">
+          <div class="setting-label">신뢰도 임계값</div>
+          <div class="setting-description">
+            배지를 표시할 최소 신뢰도: <span id="thresholdValue">0</span>%
+          </div>
+        </div>
+        <input
+          type="range"
+          id="confidenceThreshold"
+          min="0"
+          max="100"
+          value="0"
+          step="5"
+          class="slider"
+        >
+      </div>
+
+      <!-- API Endpoint (Advanced) -->
+      <details class="advanced-settings">
+        <summary>고급 설정</summary>
+        <div class="setting-item">
+          <div class="setting-info">
+            <div class="setting-label">API 엔드포인트</div>
+            <div class="setting-description">추론 서버 주소</div>
+          </div>
+          <input
+            type="text"
+            id="apiEndpoint"
+            value="http://localhost:8000/predict"
+            class="text-input"
+            placeholder="http://localhost:8000/predict"
+          >
+        </div>
+      </details>
+    </div>
+
+    <!-- Actions Section -->
+    <div class="popup-section">
+      <button class="btn btn-primary" id="scanCurrentPage">
+        <span class="btn-icon">🔍</span>
+        <span>현재 페이지 스캔</span>
+      </button>
+      <button class="btn btn-secondary" id="clearCache">
+        <span class="btn-icon">🗑️</span>
+        <span>캐시 삭제</span>
+      </button>
+    </div>
+
+    <!-- Footer -->
+    <div class="popup-footer">
+      <a href="#" id="helpLink" class="footer-link">도움말</a>
+      <span class="footer-separator">•</span>
+      <a href="#" id="aboutLink" class="footer-link">정보</a>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
