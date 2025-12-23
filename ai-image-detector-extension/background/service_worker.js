@@ -88,6 +88,13 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     });
     return true;
   }
+
+  if (request.action === 'clearCache') {
+    console.log('Clearing cache...');
+    resultCache.clear();
+    sendResponse({ success: true, message: 'Cache cleared' });
+    return true;
+  }
 });
 
 // ============================================

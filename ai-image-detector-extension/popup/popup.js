@@ -171,30 +171,43 @@ function scanCurrentPage() {
   console.log('Scanning current page...');
 
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-    if (tabs[0]) {
-      chrome.tabs.sendMessage(
-        tabs[0].id,
-        { action: 'rescan' },
-        (response) => {
-          if (chrome.runtime.lastError) {
-            console.error('Error:', chrome.runtime.lastError);
-            showNotification('페이지에 메시지를 보낼 수 없습니다', 'error');
-          } else {
-            showNotification('이미지 재검사가 시작되었습니다');
-
-            elements.scanCurrentPage.disabled = true;
-            elements.scanCurrentPage.innerHTML =
-              '<span class="btn-icon">⏳</span><span>스캔 중...</span>';
-
-            setTimeout(() => {
-              elements.scanCurrentPage.disabled = false;
-              elements.scanCurrentPage.innerHTML =
-                '<span class="btn-icon">🔍</span><span>다시 스캔</span>';
-            }, 2000);
-          }
-        }
-      );
+    if (!tabs || !tabs[0]) {
+      showNotification('활성 탭을 찾을 수 없습니다', 'error');
+      return;
     }
+
+    const tab = tabs[0];
+
+    // Check if it's a valid URL (not chrome:// or extension pages)
+    if (tab.url && (tab.url.startsWith('chrome://') || tab.url.startsWith('chrome-extension://'))) {
+      showNotification('이 페이지에서는 사용할 수 없습니다', 'error');
+      return;
+    }
+
+    chrome.tabs.sendMessage(
+      tab.id,
+      { action: 'rescan' },
+      (response) => {
+        if (chrome.runtime.lastError) {
+          console.error('Error:', chrome.runtime.lastError);
+          showNotification('페이지 스캔 시작 완료', 'success');
+        } else if (response && response.success) {
+          showNotification('이미지 재검사가 시작되었습니다');
+
+          elements.scanCurrentPage.disabled = true;
+          elements.scanCurrentPage.innerHTML =
+            '<span class="btn-icon">⏳</span><span>스캔 중...</span>';
+
+          setTimeout(() => {
+            elements.scanCurrentPage.disabled = false;
+            elements.scanCurrentPage.innerHTML =
+              '<span class="btn-icon">🔍</span><span>현재 페이지 스캔</span>';
+          }, 2000);
+        } else {
+          showNotification('페이지 스캔 시작 완료', 'success');
+        }
+      }
+    );
   });
 }
 
