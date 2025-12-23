@@ -44,7 +44,7 @@ app.add_middleware(
 # ============================================
 
 print("Loading model...")
-MODEL_PATH = "models/finetuned_clip7.pth"
+MODEL_PATH = "models/v6_adpter_grl_sched.pth"
 model = ClipFinetunedModel(MODEL_PATH)
 print("Model loaded successfully!")
 
