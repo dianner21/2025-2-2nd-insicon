@@ -71,11 +71,11 @@ class ClipFinetunedModel:
             logits = self.fc(features).squeeze()
             prob = torch.sigmoid(logits).item()
 
-        is_ai = prob >= 0.5
+        is_ai = prob >= 0.63
         self.prediction_count += 1
 
         # Debug logging
-        print(f"[DEBUG] Logit: {logits.item():.4f}, Prob: {prob:.4f}, Predicted: {'AI' if is_ai else 'Real'}")
+        print(f"[DEBUG] Logit: {logits.item():.4f}, Prob: {prob:.4f}, Predicted: {'AI' if is_ai else 'Real'} (threshold=0.63)")
 
         return {
             "ai_generated": bool(is_ai),
