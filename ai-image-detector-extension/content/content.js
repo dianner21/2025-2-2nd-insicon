@@ -29,7 +29,7 @@ let periodicScanInterval = null;
 // Initialization
 // ============================================
 function init() {
-console.log('🚀 Initializing AI Image Detector v1.2.0...');
+console.log('🚀 Initializing AI Image Detector v1.5.0...');
   console.log('📍 Page URL:', window.location.href);
 
   // Load settings
