@@ -74,6 +74,9 @@ class ClipFinetunedModel:
         is_ai = prob >= 0.5
         self.prediction_count += 1
 
+        # Debug logging
+        print(f"[DEBUG] Logit: {logits.item():.4f}, Prob: {prob:.4f}, Predicted: {'AI' if is_ai else 'Real'}")
+
         return {
             "ai_generated": bool(is_ai),
             "confidence": round(prob if is_ai else 1 - prob, 4),
