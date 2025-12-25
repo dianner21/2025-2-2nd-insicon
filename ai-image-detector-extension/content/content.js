@@ -8,7 +8,8 @@ console.log('AI Image Detector - Content Script Loaded');
 // Configuration
 const CONFIG = {
   AUTO_DETECT: true,
-  MIN_IMAGE_SIZE: 50, // minimum width/height in pixels (더 작은 이미지도 감지)
+  // Keep very small images but avoid 0-sized: tweak if overlays get noisy
+  MIN_IMAGE_SIZE: 20, // minimum width/height in pixels
   LAZY_LOAD_OBSERVER: true,
   DEBOUNCE_DELAY: 1000, // ms
   DEBUG: true, // 디버깅 로그 활성화
@@ -28,7 +29,7 @@ let periodicScanInterval = null;
 // Initialization
 // ============================================
 function init() {
-  console.log('🚀 Initializing AI Image Detector v1.1.0...');
+console.log('🚀 Initializing AI Image Detector v1.5.0...');
   console.log('📍 Page URL:', window.location.href);
 
   // Load settings
@@ -357,8 +358,9 @@ function showResultBadge(imageId, result) {
   const img = imageData.element;
   const container = getOrCreateImageContainer(img);
 
-  // Check confidence threshold
-  if (result.confidence < (settings.confidenceThreshold || 0.7)) {
+  // Check confidence threshold (default 0 to show all)
+  const threshold = settings.confidenceThreshold ?? 0;
+  if (threshold > 0 && result.confidence < threshold) {
     console.log('Confidence too low, not showing badge');
     return;
   }

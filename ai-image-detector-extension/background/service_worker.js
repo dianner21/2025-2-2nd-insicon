@@ -17,6 +17,15 @@ const resultCache = new Map();
 let requestQueue = [];
 let isProcessing = false;
 
+// Helpers
+function getApiEndpoint() {
+  return new Promise((resolve) => {
+    chrome.storage.local.get(['apiEndpoint'], (settings) => {
+      resolve(settings.apiEndpoint || CONFIG.API_ENDPOINT);
+    });
+  });
+}
+
 // ============================================
 // Extension Installation & Setup
 // ============================================
@@ -77,6 +86,13 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     chrome.storage.local.get(['autoDetect', 'confidenceThreshold', 'apiEndpoint'], (settings) => {
       sendResponse({ success: true, settings });
     });
+    return true;
+  }
+
+  if (request.action === 'clearCache') {
+    console.log('Clearing cache...');
+    resultCache.clear();
+    sendResponse({ success: true, message: 'Cache cleared' });
     return true;
   }
 });
@@ -165,26 +181,15 @@ async function fetchImage(imageUrl) {
 async function sendToInferenceAPI(imageBlob, imageUrl) {
   console.log('Sending to inference API...');
 
-  // TODO: Replace with actual API call
-  // For now, return dummy response
-
-  const dummyResult = generateDummyResponse(imageUrl);
-
-  // Simulate API delay
-  await sleep(800);
-
-  return dummyResult;
-
-  /*
-  // Actual API call (uncomment when server is ready)
+  const apiEndpoint = await getApiEndpoint();
   const formData = new FormData();
-  formData.append('image', imageBlob);
+  formData.append('image', imageBlob, 'image.jpg');
   formData.append('meta', JSON.stringify({
     source: 'browser',
-    url: imageUrl
+    url: imageUrl,
   }));
 
-  const response = await fetch(CONFIG.API_ENDPOINT, {
+  const response = await fetch(apiEndpoint, {
     method: 'POST',
     body: formData,
   });
@@ -195,7 +200,6 @@ async function sendToInferenceAPI(imageBlob, imageUrl) {
 
   const result = await response.json();
   return result;
-  */
 }
 
 // ============================================

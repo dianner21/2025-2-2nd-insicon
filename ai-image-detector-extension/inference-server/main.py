@@ -9,7 +9,8 @@ Replace DummyModel with actual trained model when ready.
 from fastapi import FastAPI, File, UploadFile, Form
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-from PIL import Image
+from PIL import Image, UnidentifiedImageError, ImageFile
+ImageFile.LOAD_TRUNCATED_IMAGES = True
 import io
 import time
 import hashlib
@@ -17,7 +18,7 @@ import json
 from typing import Optional
 import uvicorn
 
-from models.dummy_model import DummyModel
+from models.clip_finetuned import ClipFinetunedModel
 
 # ============================================
 # FastAPI App Initialization
@@ -43,7 +44,8 @@ app.add_middleware(
 # ============================================
 
 print("Loading model...")
-model = DummyModel()
+MODEL_PATH = "models/v6_adpter_grl_sched.pth"
+model = ClipFinetunedModel(MODEL_PATH)
 print("Model loaded successfully!")
 
 # ============================================
@@ -114,7 +116,16 @@ async def predict(
 
         # Read image
         image_bytes = await image.read()
-        img = Image.open(io.BytesIO(image_bytes))
+        try:
+            img = Image.open(io.BytesIO(image_bytes)).convert("RGB")
+        except UnidentifiedImageError:
+            return JSONResponse(
+                status_code=400,
+                content={
+                    "error": "Invalid image file",
+                    "message": "Cannot identify image data",
+                },
+            )
 
         # Get image info
         image_info = {
@@ -224,6 +235,6 @@ if __name__ == "__main__":
         "main:app",
         host="0.0.0.0",
         port=8000,
-        reload=True,  # Auto-reload on code changes
+        reload=False,  # Avoid double-loading heavy model
         log_level="info",
     )

@@ -14,7 +14,7 @@
         <span class="logo-icon">🤖</span>
         <h1 class="popup-title">AI Image Detector</h1>
       </div>
-      <div class="popup-version">v1.0.0</div>
+      <div class="popup-version">v1.5.0</div>
     </div>
 
     <!-- Status Section -->
@@ -48,15 +48,15 @@
         <div class="setting-info">
           <div class="setting-label">신뢰도 임계값</div>
           <div class="setting-description">
-            배지를 표시할 최소 신뢰도: <span id="thresholdValue">70</span>%
+            배지를 표시할 최소 신뢰도: <span id="thresholdValue">0</span>%
           </div>
         </div>
         <input
           type="range"
           id="confidenceThreshold"
-          min="50"
-          max="95"
-          value="70"
+          min="0"
+          max="100"
+          value="0"
           step="5"
           class="slider"
         >
@@ -79,25 +79,6 @@
           >
         </div>
       </details>
-    </div>
-
-    <!-- Statistics Section -->
-    <div class="popup-section">
-      <h2 class="section-title">통계</h2>
-      <div class="stats-grid">
-        <div class="stat-item">
-          <div class="stat-value" id="totalAnalyzed">0</div>
-          <div class="stat-label">분석된 이미지</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-value" id="aiDetected">0</div>
-          <div class="stat-label">AI 생성</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-value" id="realDetected">0</div>
-          <div class="stat-label">실제 이미지</div>
-        </div>
-      </div>
     </div>
 
     <!-- Actions Section -->

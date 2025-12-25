@@ -149,6 +149,7 @@ body {
   font-weight: 500;
   color: #333;
   margin-bottom: 4px;
+  white-space: nowrap;
 }
 
 .setting-description {
@@ -299,39 +300,6 @@ body {
 .advanced-settings .setting-item {
   margin-top: 12px;
   padding-top: 12px;
-}
-
-/* ============================================
-   Statistics
-   ============================================ */
-
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-}
-
-.stat-item {
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-  border-radius: 12px;
-  padding: 16px 12px;
-  text-align: center;
-}
-
-.stat-value {
-  font-size: 28px;
-  font-weight: 700;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  margin-bottom: 4px;
-}
-
-.stat-label {
-  font-size: 11px;
-  color: #666;
-  font-weight: 500;
 }
 
 /* ============================================
